@@ -46,7 +46,7 @@ public class CategoriaControlador implements ICrud<Categoria>{
             this.sql = "SELECT * FROM categorias";
             this.rs   = stmt.executeQuery(sql);
             connection.close();
-            
+      
             ArrayList<Categoria> categorias = new ArrayList();
             
             while(rs.next()){
