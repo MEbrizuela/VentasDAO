@@ -61,4 +61,8 @@ public class GrillaCliente extends AbstractTableModel{
         } //To change body of generated methods, choose Tools | Templates.
     }
     
+    public Cliente getClienteFromRow(int rowIndex){
+        return clientes.get(rowIndex);
+    }
+    
 }
