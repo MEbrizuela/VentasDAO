@@ -1,7 +1,5 @@
 package ventasdao.controladores;
 
-import ventasdao.objetos.Producto;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,8 +11,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import ventasdao.dominio.Conexion;
 import ventasdao.objetos.Cliente;
+import ventasdao.objetos.TipoCliente;
 
-public class ControladorProducto implements ICrud<Producto> {
+public class TipoClienteControlador implements ICrud<TipoCliente> {
 
     private Connection connection;
 
@@ -24,20 +23,17 @@ public class ControladorProducto implements ICrud<Producto> {
 
     private ResultSet rs;
 
-    private String query;
+    private String sql;
 
     @Override
-    public boolean crear(Producto entidad) throws SQLException, Exception {
-
+    public boolean crear(TipoCliente entidad) throws SQLException, Exception {
         connection = Conexion.obtenerConexion();
-        String sql = "INSERT INTO productos (nombre,descripcion,precio,categorias_id) VALUES (?,?,?,?)";
+        String sql = "INSERT INTO tipo_cliente (nombre,descripcion) VALUES (?,?)";
 
         try {
             ps = connection.prepareStatement(sql);
             ps.setString(1, entidad.getNombre());
             ps.setString(2, entidad.getDescripcion());
-            ps.setFloat(3, entidad.getPrecio());
-            ps.setInt(4, entidad.getCategoria().getId());
             ps.executeUpdate();
             connection.close();
 
@@ -45,13 +41,12 @@ public class ControladorProducto implements ICrud<Producto> {
             Logger.getLogger(CategoriaControlador.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
-
     }
 
     @Override
-    public boolean eliminar(Producto entidad) throws SQLException, Exception {
+    public boolean eliminar(TipoCliente entidad) throws SQLException, Exception {
         connection = Conexion.obtenerConexion();
-        String sql = "DELETE FROM productos WHERE id=?";
+        String sql = "DELETE FROM tipo_cliente WHERE id=?";
 
         try {
             ps = connection.prepareStatement(sql);
@@ -60,29 +55,27 @@ public class ControladorProducto implements ICrud<Producto> {
 
         } catch (SQLException ex) {
 
-            Logger.getLogger(ClienteControlador.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TipoClienteControlador.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
         return true;
     }
 
     @Override
-    public Producto extraer(int id) {
-        return null;
+    public TipoCliente extraer(int id) throws SQLException, Exception {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public boolean modificar(Producto entidad) throws SQLException, Exception {
+    public boolean modificar(TipoCliente entidad) throws SQLException, Exception {
         connection = Conexion.obtenerConexion();
-        String sql = "UPDATE clientes SET nombre=?, descripcion=?, precio=?, categorias_id=? WHERE id=?";
+        String sql = "UPDATE tipo_cliente SET nombre=?, descripcion=? WHERE id=?";
 
         try {
             ps = connection.prepareStatement(sql);
             ps.setString(1, entidad.getNombre());
             ps.setString(2, entidad.getDescripcion());
-            ps.setFloat(3, entidad.getPrecio());
-            ps.setInt(4, entidad.getCategoria().getId());
-            ps.setInt(5, entidad.getId());
+            ps.setInt(3, entidad.getId());
             ps.executeUpdate();
             connection.close();
         } catch (SQLException ex) {
@@ -90,39 +83,41 @@ public class ControladorProducto implements ICrud<Producto> {
             return false;
         }
         return true;
-
     }
 
     @Override
-    public List<Producto> listar()throws SQLException, Exception {
+    public List<TipoCliente> listar() throws SQLException, Exception {
+        
         connection = Conexion.obtenerConexion();
         try {
 
             this.stmt = connection.createStatement();
-            this.query = "SELECT * FROM clientes";
-            this.rs = stmt.executeQuery(query);
+            this.sql = "SELECT * FROM tipo_cliente";
+            this.rs = stmt.executeQuery(sql);
             connection.close();
 
-            ArrayList<Producto> productos = new ArrayList();
+            ArrayList<TipoCliente> tipoCientes = new ArrayList();
 
             while (rs.next()) {
 
-                Producto producto = new Producto();
+                TipoCliente tipo_cliente = new TipoCliente();
 
-                producto.setNombre(rs.getString("nombre"));
-                producto.setDescripcion(rs.getString("descripcion"));
-                producto.setId(rs.getInt("id"));
-                producto.setPrecio(rs.getFloat("precio"));
+                tipo_cliente.setNombre(rs.getString("nombre"));
+                tipo_cliente.setDescripcion(rs.getString("descripcion"));
+                tipo_cliente.setId(rs.getInt("id"));
+           
 
                 //System.out.println(cliente);
-                productos.add(producto);
+                tipoCientes.add(tipo_cliente);
 
             }
             //System.out.println(cont);
-            return productos;
+            return tipoCientes;
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         return null;
+
     }
+
 }

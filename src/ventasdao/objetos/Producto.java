@@ -2,6 +2,16 @@ package ventasdao.objetos;
 
 public class Producto {
 
+    private Integer id;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    
     private Categoria categoria;
 
     private String nombre;
@@ -41,4 +51,5 @@ public class Producto {
     public void setPrecio(Float precio) {
         this.precio = precio;
     }
+
 }
