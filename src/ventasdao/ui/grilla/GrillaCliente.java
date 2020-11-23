@@ -41,7 +41,7 @@ public class GrillaCliente extends AbstractTableModel{
         switch(columnIndex){
               case 0: return cliente.getId();
               case 1: return cliente.getNombre();
-              case 2: return cliente.getCuil();
+              case 2: return cliente.getDocumento();
               case 3: return cliente.getApellido();
               default: return "";
           }
@@ -53,8 +53,8 @@ public class GrillaCliente extends AbstractTableModel{
         switch(column){
             case 0: return "ID";
             case 1: return "NOMBRE";
-            case 2: return "CUIL";
-            case 3: return "Razon Social";
+            case 2: return "DOCUMENTO";
+            case 3: return "APELLIDO";
             default: return "";
         
         

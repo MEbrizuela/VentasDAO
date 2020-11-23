@@ -98,7 +98,7 @@ public class CategoriaControlador implements ICrud<Categoria>{
     public boolean eliminar(Categoria entidad) throws SQLException, Exception{
        
         connection = Conexion.obtenerConexion();
-        String sql = "DELETE FROM categoria WHERE id=?";
+        String sql = "DELETE FROM categorias WHERE id=?";
         
         try {
             ps = connection.prepareStatement(sql);

@@ -1,7 +1,7 @@
-create table clientes (
+create table clientes(
 	id serial not null,
-	documento character varying (10),
-	nombre character varying (30),
-	apellido character varying (30),
-	primary key (id)
+	documento character varying(10) not null,
+	nombre character varying(60) not null,
+	apellido character varying(60) not null,
+	primary key(id)
 )

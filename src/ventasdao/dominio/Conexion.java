@@ -21,7 +21,7 @@ public class Conexion {
 
 
    //static final String JDBC_DRIVER = "org.postgresql.Driver";  
-   static final String DB_URL = "jdbc:postgresql://localhost:5432/VentasDAO";
+   static final String DB_URL = "jdbc:postgresql://localhost:5432/ventasDAO";
    //static final String DB_URL = "jdbc:mysql://localhost:3306/sales_system";
    //static final String JDBC_DRIVER ="com.mysql.jdbc.Driver";
    //  Database credentials
@@ -37,7 +37,7 @@ public class Conexion {
             //Set Values from  .env configuration file
             //Properties enviromentsVaribles = Conexion.getProperties();
             final String  USER = "postgres"; 
-            final String  PASS = "maxy39297530";
+            final String  PASS = "123456";
 
             //Class.forName(JDBC_DRIVER);
              //STEP 3: Open a connection
