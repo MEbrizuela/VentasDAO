@@ -63,7 +63,26 @@ public class TipoClienteControlador implements ICrud<TipoCliente> {
 
     @Override
     public TipoCliente extraer(int id) throws SQLException, Exception {
-        throw new UnsupportedOperationException("Not supported yet.");
+        connection = Conexion.obtenerConexion();
+        sql = "SELECT * FROM tipo_cliente WHERE id = ?";
+        
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            connection.close();
+            
+            TipoCliente tipoCliente = new TipoCliente();
+            if(rs.next()){
+                tipoCliente.setId(id);
+                tipoCliente.setNombre(rs.getString("nombre"));
+                tipoCliente.setDescripcion(rs.getString("descripcion"));
+            }
+            return tipoCliente;
+        } catch (Exception e) {
+            System.err.println(e);
+            return null;
+        }
     }
 
     @Override
@@ -87,7 +106,7 @@ public class TipoClienteControlador implements ICrud<TipoCliente> {
 
     @Override
     public List<TipoCliente> listar() throws SQLException, Exception {
-        
+
         connection = Conexion.obtenerConexion();
         try {
 
@@ -105,7 +124,6 @@ public class TipoClienteControlador implements ICrud<TipoCliente> {
                 tipo_cliente.setNombre(rs.getString("nombre"));
                 tipo_cliente.setDescripcion(rs.getString("descripcion"));
                 tipo_cliente.setId(rs.getInt("id"));
-           
 
                 //System.out.println(cliente);
                 tipoCientes.add(tipo_cliente);

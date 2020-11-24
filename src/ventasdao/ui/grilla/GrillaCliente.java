@@ -18,7 +18,6 @@ public class GrillaCliente extends AbstractTableModel{
     private ArrayList<Cliente> clientes = new ArrayList<>();
     
     
-    
     public GrillaCliente(ArrayList<Cliente> datos) {
         this.clientes = datos;
     }

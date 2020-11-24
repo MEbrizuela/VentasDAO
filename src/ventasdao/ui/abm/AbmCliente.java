@@ -9,8 +9,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import ventasdao.controladores.ClienteControlador;
+import ventasdao.controladores.TipoClienteControlador;
 import ventasdao.objetos.Cliente;
+import ventasdao.objetos.TipoCliente;
 import ventasdao.ui.grilla.GrillaCliente;
 
 /**
@@ -25,6 +28,9 @@ public class AbmCliente extends javax.swing.JInternalFrame {
     private Cliente cliente;
     private GrillaCliente grillaCliente;
     private ClienteControlador clienteControlador = new ClienteControlador();
+    private TipoClienteControlador tipoClienteControlador;
+    private DefaultComboBoxModel modelCombo;
+    
     
     
     
@@ -32,6 +38,17 @@ public class AbmCliente extends javax.swing.JInternalFrame {
         initComponents();
         
         ArrayList<Cliente> clientes;
+        tipoClienteControlador = new TipoClienteControlador();
+        
+        try {
+            ArrayList<TipoCliente> tiposCliente = (ArrayList<TipoCliente>) tipoClienteControlador.listar();
+            modelCombo = new DefaultComboBoxModel(tiposCliente.toArray());
+            jcbTiposCliente.setModel(modelCombo);
+        } catch (Exception ex) {
+            Logger.getLogger(AbmCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
         try {
             clientes = clienteControlador.listar();
             grillaCliente = new GrillaCliente(clientes);
@@ -68,6 +85,8 @@ public class AbmCliente extends javax.swing.JInternalFrame {
         jbModificar = new javax.swing.JButton();
         jbEliminar = new javax.swing.JButton();
         jbAgregar = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jcbTiposCliente = new javax.swing.JComboBox<>();
 
         setClosable(true);
 
@@ -126,6 +145,15 @@ public class AbmCliente extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel5.setText("Tipo Cliente");
+
+        jcbTiposCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcbTiposCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbTiposClienteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -138,13 +166,15 @@ public class AbmCliente extends javax.swing.JInternalFrame {
                             .addComponent(jLabel1)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel4))
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5))
                         .addGap(20, 20, 20)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jtfNombre)
                             .addComponent(jtfId)
                             .addComponent(jtfApellido)
-                            .addComponent(jtfDocumento)))
+                            .addComponent(jtfDocumento)
+                            .addComponent(jcbTiposCliente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(63, 63, 63)
                         .addComponent(jbAgregar)
@@ -164,7 +194,7 @@ public class AbmCliente extends javax.swing.JInternalFrame {
                         .addGap(25, 25, 25)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(77, 77, 77)
+                        .addGap(33, 33, 33)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(jtfId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -180,12 +210,16 @@ public class AbmCliente extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jtfDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))
-                        .addGap(40, 40, 40)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(jcbTiposCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(50, 50, 50)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jbModificar)
                             .addComponent(jbEliminar)
                             .addComponent(jbAgregar))))
-                .addContainerGap(135, Short.MAX_VALUE))
+                .addContainerGap(136, Short.MAX_VALUE))
         );
 
         pack();
@@ -205,6 +239,7 @@ public class AbmCliente extends javax.swing.JInternalFrame {
         cliente.setNombre(jtfNombre.getText());
         cliente.setDocumento(jtfDocumento.getText());
         cliente.setApellido(jtfApellido.getText());
+        cliente.setTipoCliente((TipoCliente) jcbTiposCliente.getSelectedItem());
         cliente.setId(Integer.parseInt(jtfId.getText()));
         
         try {
@@ -242,6 +277,7 @@ public class AbmCliente extends javax.swing.JInternalFrame {
         cliente.setDocumento(jtfDocumento.getText());
         cliente.setNombre(jtfNombre.getText());
         cliente.setApellido(jtfApellido.getText());
+        cliente.setTipoCliente((TipoCliente) jcbTiposCliente.getSelectedItem());
         
         try {
             clienteControlador.crear(cliente);
@@ -256,16 +292,23 @@ public class AbmCliente extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jbAgregarActionPerformed
 
+    private void jcbTiposClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbTiposClienteActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jcbTiposClienteActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbAgregar;
     private javax.swing.JButton jbEliminar;
     private javax.swing.JButton jbModificar;
+    private javax.swing.JComboBox<String> jcbTiposCliente;
     private javax.swing.JTable jtListadoCliente;
     private javax.swing.JTextField jtfApellido;
     private javax.swing.JTextField jtfDocumento;

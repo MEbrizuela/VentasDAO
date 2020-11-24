@@ -212,13 +212,13 @@ public class AbmCategoria extends javax.swing.JInternalFrame {
         try {
             categoriaControlador.modificar(categoria);
         } catch (Exception ex) {
-            Logger.getLogger(AbmCliente.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AbmCategoria.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         try {
             jtListadoCategorias.setModel(new GrillaCategoria(categoriaControlador.listar()));
         } catch (Exception ex) {
-            Logger.getLogger(AbmCliente.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AbmCategoria.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jbModificarActionPerformed
 
@@ -229,12 +229,12 @@ public class AbmCategoria extends javax.swing.JInternalFrame {
         try {
             categoriaControlador.eliminar(categoria);
         } catch (Exception ex) {
-            Logger.getLogger(AbmCliente.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AbmCategoria.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             jtListadoCategorias.setModel(new GrillaCategoria(categoriaControlador.listar()));
         } catch (Exception ex) {
-            Logger.getLogger(AbmCliente.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AbmCategoria.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jbEliminarActionPerformed
 
